@@ -1,6 +1,5 @@
-source "https://rubygems.org"
-
-
+source 'https://nexus.vinted.net/repository/rubygems-proxy-repos-group/'
+private_gem_source = 'https://nexus.vinted.net/repository/rubygems-cloudsmith-repos-group/'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.1"
@@ -41,3 +40,18 @@ group :development do
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
 end
 
+gem 'interactor-initializer' # to be used for writing interactors
+gem 'active_model_serializers' # for object serialization
+
+group :development, :test do
+  gem 'rspec'
+  gem 'rspec-rails' # we skipped default testing framework for rails with -T and using rspec instead
+  gem 'factory_bot_rails' # for creating spec fixtures
+  gem 'pry' # use binding.pry to stop execution and open console session for debugging
+  gem 'pry-byebug' # enhances pry with debugging capabilities (see https://github.com/deivid-rodriguez/pry-byebug)
+end
+
+group :development do
+  gem 'rubocop', '>= 1.49.0', require: false
+  gem 'rubocop-vinted', '~> 1.3.0', require: false, source: private_gem_source
+end
