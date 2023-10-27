@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: { message: 'success' }, status: 200
+    render json: @users
   end
 
   private

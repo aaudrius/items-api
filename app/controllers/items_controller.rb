@@ -3,11 +3,12 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: %i(show update destroy)
 
-
   # GET /items
   def index
-    @items = Item.all
-    render json: @items
+    result = Items::Filter.run(params[:brand], params[:status])
+    
+    render json: result
+   
   end
 
   # GET /items/:id
@@ -49,7 +50,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:uuid, :price, :brand, :photo_url, :status, :user)
+    params.require(:item).permit(:price, :brand, :photo_url, :status, :user_id)
   end
 end
 
