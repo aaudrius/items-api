@@ -3,6 +3,7 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: %i(show update destroy)
 
+
   # GET /items
   def index
     @items = Item.all
@@ -26,13 +27,20 @@ class ItemsController < ApplicationController
 
   # PUT/PATCH /items/:id
   def update
-    render json: { message: 'Success' }, status: 200
+    if @item.update(item_params)
+      render json: @item
+    else
+      render json: @item.errors, status: :unprocessable_entity
+    end
   end
 
   # DELETE /items/:id
   def destroy
-    render json: { message: 'Success' }, status: 200
+    @item.destroy
+    head :no_content
   end
+
+  private
 
   def set_item
     @item = Item.find(params[:id])
@@ -41,7 +49,7 @@ class ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:uuid, :price, :brand, :photo_url, :status, :user_id)
+    params.require(:item).permit(:uuid, :price, :brand, :photo_url, :status, :user)
   end
 end
 
